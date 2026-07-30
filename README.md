@@ -7,10 +7,12 @@ No classes. No build step. No webfonts. No JavaScript.
 ## Usage
 
 ```html
-<link rel="stylesheet" href="normie.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/croquant/normiecss@0.1.0/normie.min.css">
 ```
 
-Write semantic HTML. That's the entire API.
+Or download `normie.css` from the [latest release](https://github.com/croquant/normiecss/releases/latest) and serve it yourself.
+
+Write semantic HTML. That's the entire API. See the [demo page](https://croquant.github.io/normiecss/) for every supported element.
 
 - `normie.css` — the framework. Hand-written and extensively commented; the source is the reference manual.
 - `normie.min.css` — the minified build, generated in CI.
