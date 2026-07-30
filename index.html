@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Normie CSS — a classless stylesheet for semantic HTML</title>
+  <meta name="description" content="Normie CSS: drop in one classless stylesheet and semantic HTML reads like a well-typeset printed document.">
+  <link rel="stylesheet" href="normie.css">
+</head>
+<body>
+
+  <h1>Normie CSS</h1>
+
+  <p>An extremely pure and simple <strong>classless</strong> CSS framework. Link one stylesheet and semantic HTML reads like a well-typeset printed document. No classes, no build step, no webfonts, no JavaScript. This page is the demo, the documentation, and the manual regression test: it does not use a single <code>class</code> attribute.</p>
+
+  <p>Grab <a href="normie.css">normie.css</a> and read the source — the comments are the reference manual. Fork it to make it yours.</p>
+
+  <hr>
+
+  <section>
+    <h2>Typography</h2>
+
+    <p>Body text is a system serif on a fluid scale, set in a single column roughly 66 characters wide: the measure printers settled on centuries ago. Inline elements behave as they do in print. <a href="#typography">Links</a> are underlined and colored, <strong>strong text</strong> is bold, <em>emphasis</em> is italic, <small>small print</small> is small, and <mark>marked text</mark> looks highlighted. Abbreviations like <abbr title="HyperText Markup Language">HTML</abbr> carry their expansion, and formulas like E&nbsp;=&nbsp;mc<sup>2</sup> and H<sub>2</sub>O never disturb the line height.</p>
+
+    <p>A second paragraph, to show the single blank line that separates blocks of thought. Nothing more is needed; the spacing does the work.</p>
+
+    <h3>Heading level 3</h3>
+    <h4>Heading level 4</h4>
+    <h5>Heading level 5</h5>
+    <h6>Heading level 6</h6>
+
+    <p>Headings use the same family as the body, as in print. Only size, weight, and the occasional small cap carry the hierarchy.</p>
+
+    <blockquote>
+      <p>The details are not the details. They make the design.</p>
+      <footer>— <cite>Charles Eames</cite></footer>
+    </blockquote>
+
+    <p>Lists keep their markers close and their items compact:</p>
+
+    <ul>
+      <li>Ink on paper, nothing else</li>
+      <li>Flat colors, hard borders
+        <ul>
+          <li>No shadows</li>
+          <li>No gradients</li>
+        </ul>
+      </li>
+      <li>One centered column</li>
+    </ul>
+
+    <ol>
+      <li>Write semantic HTML</li>
+      <li>Link the stylesheet</li>
+      <li>There is no step three</li>
+    </ol>
+
+    <dl>
+      <dt>Classless</dt>
+      <dd>Styling bare elements only. Zero markup changes to your documents.</dd>
+      <dt>Measure</dt>
+      <dd>The width of a line of text. About 66 characters is the comfortable limit.</dd>
+      <dt>Paper metaphor</dt>
+      <dd>The scope boundary: if it can't appear on a printed sheet, it's out.</dd>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Code</h2>
+
+    <p>Inline code like <code>margin-block: 1lh</code> sits in a faint gray. Keyboard input, such as <kbd>Ctrl</kbd>&nbsp;+&nbsp;<kbd>P</kbd> to print this page, is drawn as a flat keycap. Program output looks like <samp>no paper in tray</samp>.</p>
+
+    <pre><code>def justify(text, width):
+    """Typeset a paragraph to a fixed measure."""
+    words, lines, line = text.split(), [], ""
+    for word in words:
+        if len(line) + len(word) + 1 > width:
+            lines.append(line)
+            line = word
+        else:
+            line = f"{line} {word}".strip()
+    return "\n".join(lines + [line])</code></pre>
+  </section>
+
+  <section>
+    <h2>Tables</h2>
+
+    <table>
+      <caption>Table 1: Ruled like a book table — heavy rules outside, hairlines inside, no vertical rules.</caption>
+      <thead>
+        <tr>
+          <th scope="col">Element</th>
+          <th scope="col">Ink</th>
+          <th scope="col">Paper</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Body text</td>
+          <td>16.8:1</td>
+          <td>AAA</td>
+        </tr>
+        <tr>
+          <td>Links and focus</td>
+          <td>9.7:1</td>
+          <td>AAA</td>
+        </tr>
+        <tr>
+          <td>Marked text</td>
+          <td>13.4:1</td>
+          <td>AAA</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Figures and media</h2>
+
+    <p>Media never exceeds the measure. Figures center their content and set their caption small beneath it.</p>
+
+    <figure>
+      <svg viewBox="0 0 400 240" role="img" aria-label="Bar chart: words read on paper, on screen, and in print again">
+        <line x1="40" y1="20" x2="40" y2="200" stroke="#1a1a18" stroke-width="2"/>
+        <line x1="40" y1="200" x2="380" y2="200" stroke="#1a1a18" stroke-width="2"/>
+        <rect x="70" y="70" width="60" height="130" fill="#0b3d91"/>
+        <rect x="170" y="120" width="60" height="80" fill="#0b3d91"/>
+        <rect x="270" y="45" width="60" height="155" fill="#0b3d91"/>
+        <text x="100" y="222" text-anchor="middle" font-size="14" fill="#1a1a18">print</text>
+        <text x="200" y="222" text-anchor="middle" font-size="14" fill="#1a1a18">screen</text>
+        <text x="300" y="222" text-anchor="middle" font-size="14" fill="#1a1a18">normie</text>
+      </svg>
+      <figcaption>Figure 1: A chart is just ink on paper.</figcaption>
+    </figure>
+
+    <p>A plain image is constrained to the column the same way: <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%230b3d91'/%3E%3Crect x='20' y='20' width='200' height='110' fill='%23fbfbf8'/%3E%3C/svg%3E" alt="A blue frame around a paper-colored rectangle" width="240" height="150"></p>
+  </section>
+
+  <section>
+    <h2>Forms</h2>
+
+    <p>Fields are full-width blocks under their labels, as on a paper form. Required fields are marked with an asterisk. Type an invalid email and leave the field to see the <code>:user-invalid</code> state; bare <code>:invalid</code> is intentionally not styled, so pristine forms never scold.</p>
+
+    <form>
+      <fieldset>
+        <legend>Subscribe to the journal</legend>
+
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" autocomplete="name">
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email">
+
+        <label for="since">Start date</label>
+        <input id="since" name="since" type="date">
+
+        <label for="copies">Copies</label>
+        <input id="copies" name="copies" type="number" min="1" max="99" value="1">
+
+        <label for="edition">Edition</label>
+        <select id="edition" name="edition">
+          <option>Paper</option>
+          <option>Digital</option>
+          <option>Both</option>
+        </select>
+
+        <fieldset>
+          <legend>Format</legend>
+          <label><input type="radio" name="format" value="a5" checked> A5 pamphlet</label>
+          <label><input type="radio" name="format" value="a4"> A4 broadsheet</label>
+        </fieldset>
+
+        <label for="volume">Volume</label>
+        <input id="volume" name="volume" type="range" min="0" max="11" value="4">
+
+        <label for="notes">Delivery notes</label>
+        <textarea id="notes" name="notes" rows="4"></textarea>
+
+        <label><input type="checkbox" name="terms" required> I agree to the terms of print</label>
+      </fieldset>
+
+      <button type="submit">Subscribe</button>
+      <button type="reset">Reset</button>
+      <button type="button" disabled>Out of print</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Details</h2>
+
+    <details open>
+      <summary>What does “classless” mean?</summary>
+      <p>One stylesheet styles bare HTML elements. You write <code>&lt;h2&gt;</code>, never <code>&lt;h2 class="heading heading--large"&gt;</code>. Zero markup changes; semantic HTML is the API.</p>
+    </details>
+
+    <details>
+      <summary>Can I customize it?</summary>
+      <p>There is no theming API, by design. The source is short and every line is commented: fork it and edit the values.</p>
+    </details>
+
+    <details>
+      <summary>Does it print well?</summary>
+      <p>It was print-shaped from the first line. Figures, tables, blockquotes, and code blocks also avoid breaking across pages.</p>
+    </details>
+  </section>
+
+  <footer>
+    <p><small>Normie CSS v0.1.0 · MIT license · Hand-written CSS, system fonts, zero classes on this page.</small></p>
+  </footer>
+
+</body>
+</html>

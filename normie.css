@@ -1,0 +1,430 @@
+/* ============================================================================
+   Normie CSS v0.1.0
+   A classless CSS framework: write semantic HTML, get a printed page.
+
+   - No classes. This file styles bare elements only.
+   - No build step, no webfonts, no JavaScript.
+   - The paper metaphor is the scope boundary: if it can't appear on a
+     printed sheet, it isn't in here.
+   - This source is the documentation. Every rule justifies itself inline.
+
+   License: MIT. Design rationale: DESIGN.md.
+   ============================================================================ */
+
+
+/* ----------------------------------------------------------------------------
+   1. Internal tokens
+
+   Not a theming API. These three variables exist so a future dark mode can
+   swap values in one place without rewriting selectors (see DESIGN.md).
+   They are deliberately few; to change the design, fork the file.
+   ---------------------------------------------------------------------------- */
+
+:root {
+  --ink: #1a1a18;      /* text + borders. ~16.8:1 on --paper */
+  --paper: #fbfbf8;    /* the sheet */
+  --accent: #0b3d91;   /* links + focus. ~9.7:1 on --paper */
+
+  color-scheme: light; /* explicit until dark mode ships */
+}
+
+
+/* ----------------------------------------------------------------------------
+   2. Targeted reset
+
+   Only what the rules below rely on. This is not a general normalize.
+   ---------------------------------------------------------------------------- */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+/* Media never exceeds the measure. */
+img, svg, video, canvas {
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+audio {
+  max-inline-size: 100%;
+}
+
+/* Form controls don't inherit typography by default. */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Zero the flow margins we re-assert on our own terms below. */
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl, blockquote, pre, figure, hr, fieldset {
+  margin: 0;
+}
+
+
+/* ----------------------------------------------------------------------------
+   3. The page
+
+   One centered column, ~66 characters wide: the measure typographers settled
+   on for comfortable reading long before the web.
+   ---------------------------------------------------------------------------- */
+
+html {
+  /* Fluid root size: ~16px on a phone, ~19px on a desktop, smooth between.
+     Everything below derives from this via em/rem, so the whole page scales
+     without a single breakpoint. */
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.1875rem);
+}
+
+body {
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, P052,
+               "URW Palladio L", Georgia, serif;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--paper);
+  overflow-wrap: break-word; /* long URLs wrap instead of breaking the measure */
+
+  max-inline-size: 66ch;
+  margin-inline: auto;
+  padding-block: 2rem;
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+}
+
+/* Keyboard focus: a hard outline, always visible, never removed. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+/* ----------------------------------------------------------------------------
+   4. Typography
+
+   Serif everywhere, one family for body and headings, as in print.
+   Hierarchy comes from size and weight alone.
+   ---------------------------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  /* More space above than below: a heading belongs to what follows it. */
+  margin-block: 1.75rem 0.75rem;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.15rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 1rem; font-variant: small-caps; letter-spacing: 0.03em; }
+
+/* Flow spacing: one blank line (1lh) between blocks, as on a typed page.
+   The lh unit is the element's own line height. */
+p, ul, ol, dl, blockquote, pre, figure, table, details, form, fieldset {
+  margin-block: 1lh;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+ul, ol {
+  padding-inline-start: 2.5ch;
+}
+
+li + li {
+  margin-block-start: 0.25em;
+}
+
+/* Nested lists don't earn their own blank line. */
+li > ul, li > ol {
+  margin-block: 0.25em;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-inline-start: 2em;
+}
+
+/* Gap between definition entries. */
+dd + dt {
+  margin-block-start: 0.75em;
+}
+
+blockquote {
+  padding-inline-start: 1.25em;
+  border-inline-start: 2px solid var(--ink);
+}
+
+/* A thematic break, drawn as the short centered rule of a printed page. */
+hr {
+  margin-block: 2lh;
+  margin-inline: auto;
+  inline-size: 12ch;
+  border: 0;
+  border-block-start: 2px solid var(--ink);
+}
+
+mark {
+  background: #ffe14d; /* highlighter yellow; ~13:1 against --ink text */
+  padding-inline: 0.1em;
+}
+
+abbr[title] {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.15em;
+}
+
+/* Keep sup/sub from inflating the line height around them. */
+sup, sub {
+  position: relative;
+  font-size: 0.72em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+
+sup { top: -0.45em; }
+sub { bottom: -0.2em; }
+
+
+/* ----------------------------------------------------------------------------
+   5. Code
+   ---------------------------------------------------------------------------- */
+
+code, kbd, samp {
+  font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+               "Liberation Mono", monospace;
+  font-size: 0.875em; /* mono runs large next to serif */
+}
+
+code {
+  background: color-mix(in srgb, var(--ink) 6%, var(--paper));
+  padding-inline: 0.25em;
+}
+
+/* A keycap, drawn flat. */
+kbd {
+  border: 1px solid var(--ink);
+  padding: 0.05em 0.35em;
+}
+
+pre {
+  padding: 1em 1.25em;
+  border: 1px solid var(--ink);
+  overflow-x: auto; /* long lines scroll rather than break the column */
+  line-height: 1.45;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+
+
+/* ----------------------------------------------------------------------------
+   6. Figures and media
+   ---------------------------------------------------------------------------- */
+
+figure img, figure svg {
+  display: block;
+  margin-inline: auto;
+}
+
+figcaption {
+  margin-block-start: 0.75em;
+  font-size: 0.875em;
+  text-align: center;
+}
+
+
+/* ----------------------------------------------------------------------------
+   7. Tables
+
+   Ruled like a book table: heavy rules top and bottom, hairlines between
+   rows, no vertical rules.
+   ---------------------------------------------------------------------------- */
+
+table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  border-block: 2px solid var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+caption {
+  margin-block-end: 0.5em;
+  font-size: 0.875em;
+  font-style: italic;
+  text-align: start;
+}
+
+th, td {
+  padding: 0.4em 0.75em;
+  text-align: start;
+  vertical-align: top;
+  border-block-end: 1px solid var(--ink);
+}
+
+/* The table's own bottom rule serves as the last hairline. */
+tbody tr:last-child th, tbody tr:last-child td {
+  border-block-end: 0;
+}
+
+
+/* ----------------------------------------------------------------------------
+   8. Forms
+
+   Fields are full-width blocks under their labels: a form on paper is a
+   column of boxes to fill in. Checkboxes and radios stay inline.
+   ---------------------------------------------------------------------------- */
+
+/* Text-like fields. Other input types (checkbox, radio, range, buttons,
+   hidden, file, color) keep their own shape and are handled separately. */
+input:not([type]),
+input:is([type="text"], [type="email"], [type="password"], [type="search"],
+          [type="tel"], [type="url"], [type="number"], [type="date"],
+          [type="time"], [type="datetime-local"], [type="month"], [type="week"]),
+select,
+textarea {
+  display: block;
+  inline-size: 100%;
+  margin-block: 0.25em 1em; /* hug the label above, separate from what follows */
+  padding: 0.4em 0.6em;
+  border: 1px solid var(--ink);
+  border-radius: 0; /* override platform rounding */
+  background: var(--paper);
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  inline-size: 1em;
+  block-size: 1em;
+  margin-inline-end: 0.3em;
+  vertical-align: -0.1em;
+}
+
+/* A label wrapping a checkbox or radio becomes a row of its own:
+   on paper, choices stack. */
+label:has(> input:is([type="checkbox"], [type="radio"])) {
+  display: block;
+  margin-block: 0.25em;
+}
+
+input[type="range"] {
+  display: block;
+  inline-size: 100%;
+  margin-block: 0.25em 1em;
+}
+
+/* Flat, hard-edged buttons: inverted ink on hover. */
+button,
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  padding: 0.4em 1.1em;
+  margin-block: 0.5em 1em;
+  margin-inline-end: 0.5em;
+  border: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled),
+input:is([type="submit"], [type="button"], [type="reset"]):hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+button:disabled,
+input:is([type="submit"], [type="button"], [type="reset"]):disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+fieldset {
+  padding: 1em 1.25em 1.25em;
+  border: 1px solid var(--ink);
+  min-inline-size: 0; /* allow shrinking below content width */
+}
+
+legend {
+  padding-inline: 0.4em;
+  font-weight: 700;
+}
+
+/* Mark required fields with an asterisk on their label. Covers the two
+   idiomatic structures: label-before-field and label-wrapping-field. */
+label:has(+ :required)::after,
+label:has(> :required)::after {
+  content: " *";
+  color: #b3261e;
+}
+
+/* Invalid fields turn red, but only after interaction (:user-invalid).
+   Bare :invalid is deliberately not styled: it matches pristine required
+   fields on page load, scolding the user before a word is typed. */
+:where(input, select, textarea):user-invalid {
+  border-color: #b3261e;
+}
+
+/* Checkboxes and radios have no border to recolor; ring them instead. */
+input:is([type="checkbox"], [type="radio"]):user-invalid {
+  outline: 2px solid #b3261e;
+  outline-offset: 1px;
+}
+
+:where(input, select, textarea):user-invalid:focus-visible {
+  outline-color: #b3261e;
+}
+
+
+/* ----------------------------------------------------------------------------
+   9. Details and summary
+   ---------------------------------------------------------------------------- */
+
+summary {
+  font-weight: 700;
+  cursor: pointer;
+}
+
+details[open] > summary {
+  margin-block-end: 0.5em;
+}
+
+
+/* ----------------------------------------------------------------------------
+   10. Print
+
+   Already print-shaped by design; this only keeps blocks whole across pages.
+   ---------------------------------------------------------------------------- */
+
+@media print {
+  figure, table, blockquote, pre {
+    break-inside: avoid;
+  }
+}
