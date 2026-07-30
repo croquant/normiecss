@@ -1,0 +1,45 @@
+name: Release
+
+# Cuts a release on every push to master that touches normie.css.
+# Default bump is patch; put #minor or #major in the commit message
+# to bump those instead. Can also be run manually.
+
+on:
+  push:
+    branches: [master]
+    paths: [normie.css]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needed to see all tags
+
+      - name: Compute next version
+        id: v
+        run: |
+          last=$(git tag --sort=-v:refname | head -1)
+          last=${last:-0.0.0}
+          major=${last%%.*}; rest=${last#*.}; minor=${rest%%.*}; patch=${rest##*.}
+          msg="${{ github.event.head_commit.message }}"
+          case "$msg" in
+            *"#major"*) major=$((major+1)); minor=0; patch=0;;
+            *"#minor"*) minor=$((minor+1)); patch=0;;
+            *)          patch=$((patch+1));;
+          esac
+          echo "tag=$major.$minor.$patch" >> "$GITHUB_OUTPUT"
+
+      - name: Tag and release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag="${{ steps.v.outputs.tag }}"
+          git tag "$tag"
+          git push origin "$tag"
+          gh release create "$tag" --title "$tag" --generate-notes
