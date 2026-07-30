@@ -6,8 +6,31 @@
   <title>Normie CSS — a classless stylesheet for semantic HTML</title>
   <meta name="description" content="Normie CSS: drop in one classless stylesheet and semantic HTML reads like a well-typeset printed document.">
   <link rel="stylesheet" href="normie.css">
+  <style>
+    /* Demo-only theme toggle (see the form below). Forcing a mode overrides
+       the framework tokens from this page; "Auto" leaves the stylesheet's
+       own prefers-color-scheme media query in charge. No JavaScript. */
+    :root:has(#theme-light:checked) {
+      --ink: #1a1a18; --paper: #fbfbf8; --accent: #0b3d91; --danger: #b3261e;
+      color-scheme: light;
+    }
+    :root:has(#theme-dark:checked) {
+      --ink: #fbfbf8; --paper: #1a1a18; --accent: #8fb0f0; --danger: #ff6961;
+      color-scheme: dark;
+    }
+  </style>
 </head>
 <body>
+
+  <form>
+    <fieldset>
+      <legend>Demo theme</legend>
+      <label><input type="radio" name="theme" id="theme-auto" checked> Auto (follow the system)</label>
+      <label><input type="radio" name="theme" id="theme-light"> Light</label>
+      <label><input type="radio" name="theme" id="theme-dark"> Dark</label>
+      <p><small>Pure CSS (<code>:has()</code>), no JavaScript — the choice resets on reload.</small></p>
+    </fieldset>
+  </form>
 
   <h1>Normie CSS</h1>
 
