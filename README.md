@@ -7,7 +7,7 @@ No classes. No build step. No webfonts. No JavaScript.
 ## Usage
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/croquant/normiecss@0.1/normie.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/croquant/normiecss@latest/normie.min.css">
 ```
 
 Or download `normie.css` from the [latest release](https://github.com/croquant/normiecss/releases/latest) and serve it yourself.
