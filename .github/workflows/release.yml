@@ -1,8 +1,9 @@
 name: Release
 
-# Cuts a release on every push to master that touches normie.css.
-# Default bump is patch; put #minor or #major in the commit message
-# to bump those instead. Can also be run manually.
+# On every push to master touching normie.css: rebuild normie.min.css,
+# commit it, then tag that commit and cut a release.
+# Default bump is patch; #minor or #major in the commit message
+# bumps those instead. Can also be run manually.
 
 on:
   push:
@@ -13,6 +14,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: release
+  cancel-in-progress: false
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -20,6 +25,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # needed to see all tags
+
+      # The minified build must land BEFORE the tag, otherwise the tag
+      # (and the jsDelivr CDN serving it) ships a stale normie.min.css.
+      - name: Rebuild and commit normie.min.css
+        run: |
+          npx -y csso-cli normie.css -o normie.min.css
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add normie.min.css
+          git diff --cached --quiet || {
+            git commit -m "chore: rebuild normie.min.css"
+            git push origin HEAD:master
+          }
 
       - name: Compute next version
         id: v
