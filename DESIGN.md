@@ -43,8 +43,8 @@ Out of scope for V1: `<dialog>`, nav components, cards, modals, grids, alerts, a
 | Classes | Classless core. **Zero modifiers ship in V1**. A modifier is added only when a document-idiomatic need can't be met semantically. |
 | Build | None locally. Single hand-written `normie.css`. `normie.min.css` produced in CI (e.g., GitHub Actions via a minifier). Not a dev dependency. |
 | Fonts | System serif stack, system monospace. No webfont, no `@font-face`. |
-| Customization | No official theming API. `ink` / `paper` / `accent` are defined as CSS variables scoped within the framework to prevent casual override; they exist purely so a future dark mode can swap values without rewriting selectors. |
-| Dark mode | Not in V1. Planned. `color-scheme: light` set explicitly — will need to change to `light dark` or equivalent when dark mode ships. |
+| Customization | No official theming API. `ink` / `paper` / `accent` / `danger` are defined as CSS variables scoped within the framework to prevent casual override; they exist so dark mode swaps values without rewriting selectors. |
+| Dark mode | Shipped in 0.2. `prefers-color-scheme: dark` swaps the token values and sets `color-scheme: dark`. No manual toggle. |
 | Reset | Minimal hand-written targeted reset (~15-25 lines): `box-sizing`, body margin, media constraints, form controls inherit font, margin normalization on styled elements only. No normalize library. |
 | Print | Prints well out of the box by design. Small `@media print` block only where strictly necessary (`break-inside: avoid` on figures, tables, blockquotes, `pre`). |
 | Browser support | Modern evergreen only. Any modern CSS allowed (nesting, `:where()`, `:is()`, logical properties). No prefixes, no fallbacks, no legacy. |
@@ -65,6 +65,5 @@ Semver, starting at `0.1.0`. Promote to `1.0.0` once the document-complete scope
 
 ## Roadmap (post-V1, not committed)
 
-- Dark mode (additive via internal color variables)
 - Full UI kit (nav, cards, modals, grid) as an optional layer, never compromising the classless core
 - Modifier classes, added one at a time against proven needs

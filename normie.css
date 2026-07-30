@@ -1,5 +1,5 @@
 /* ============================================================================
-   Normie CSS v0.1.0
+   Normie CSS v0.2.0
    A classless CSS framework: write semantic HTML, get a printed page.
 
    - No classes. This file styles bare elements only.
@@ -15,17 +15,33 @@
 /* ----------------------------------------------------------------------------
    1. Internal tokens
 
-   Not a theming API. These three variables exist so a future dark mode can
-   swap values in one place without rewriting selectors (see DESIGN.md).
-   They are deliberately few; to change the design, fork the file.
+   Not a theming API. These variables exist so dark mode can swap values in
+   one place without rewriting selectors (see DESIGN.md). They are
+   deliberately few; to change the design, fork the file.
    ---------------------------------------------------------------------------- */
 
 :root {
   --ink: #1a1a18;      /* text + borders. ~16.8:1 on --paper */
   --paper: #fbfbf8;    /* the sheet */
   --accent: #0b3d91;   /* links + focus. ~9.7:1 on --paper */
+  --danger: #b3261e;   /* invalid + required. ~6.3:1 on --paper */
 
-  color-scheme: light; /* explicit until dark mode ships */
+  color-scheme: light;
+}
+
+/* Dark mode: the same plate, inverted. --ink and --paper trade values so
+   body contrast is identical; --accent and --danger brighten to hold AA
+   against the dark sheet. color-scheme flips so native controls
+   (select popups, date pickers, scrollbars) render dark too. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #fbfbf8;    /* ~16.8:1 on --paper */
+    --paper: #1a1a18;
+    --accent: #8fb0f0; /* ~8:1 on --paper */
+    --danger: #ff6961; /* ~6.2:1 on --paper */
+
+    color-scheme: dark;
+  }
 }
 
 
@@ -177,8 +193,11 @@ hr {
   border-block-start: 2px solid var(--ink);
 }
 
+/* A highlighter stays yellow in dark mode too, so its ink stays dark
+   regardless of the palette. */
 mark {
-  background: #ffe14d; /* highlighter yellow; ~13:1 against --ink text */
+  background: #ffe14d;
+  color: #1a1a18; /* ~13:1 on the highlighter yellow */
   padding-inline: 0.1em;
 }
 
@@ -382,24 +401,24 @@ legend {
 label:has(+ :required)::after,
 label:has(> :required)::after {
   content: " *";
-  color: #b3261e;
+  color: var(--danger);
 }
 
 /* Invalid fields turn red, but only after interaction (:user-invalid).
    Bare :invalid is deliberately not styled: it matches pristine required
    fields on page load, scolding the user before a word is typed. */
 :where(input, select, textarea):user-invalid {
-  border-color: #b3261e;
+  border-color: var(--danger);
 }
 
 /* Checkboxes and radios have no border to recolor; ring them instead. */
 input:is([type="checkbox"], [type="radio"]):user-invalid {
-  outline: 2px solid #b3261e;
+  outline: 2px solid var(--danger);
   outline-offset: 1px;
 }
 
 :where(input, select, textarea):user-invalid:focus-visible {
-  outline-color: #b3261e;
+  outline-color: var(--danger);
 }
 
 
