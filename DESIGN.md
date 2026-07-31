@@ -61,7 +61,7 @@ Out of scope for V1: `<dialog>`, nav components, cards, modals, grids, alerts, a
 
 ## Versioning
 
-Semver, starting at `0.1.0`. Promote to `1.0.0` once the document-complete scope survives real-world use.
+Semver, starting at `0.1.0`. Promoted to `1.0.0` once the document-complete scope survived real-world use.
 
 ## Roadmap (post-V1, not committed)
 
