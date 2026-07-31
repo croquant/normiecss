@@ -38,9 +38,21 @@
 
   <p>Grab <a href="normie.css">normie.css</a> and read the source — the comments are the reference manual. Fork it to make it yours.</p>
 
+  <nav aria-label="Table of contents">
+    <ul>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#code">Code</a></li>
+      <li><a href="#tables">Tables</a></li>
+      <li><a href="#figures">Figures and media</a></li>
+      <li><a href="#forms">Forms</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#dialogs">Dialogs</a></li>
+    </ul>
+  </nav>
+
   <hr>
 
-  <section>
+  <section id="typography">
     <h2>Typography</h2>
 
     <p>Body text is a system serif on a fluid scale, set in a single column roughly 66 characters wide: the measure printers settled on centuries ago. Inline elements behave as they do in print. <a href="#typography">Links</a> are underlined and colored, <strong>strong text</strong> is bold, <em>emphasis</em> is italic, <small>small print</small> is small, and <mark>marked text</mark> looks highlighted. Abbreviations like <abbr title="HyperText Markup Language">HTML</abbr> carry their expansion, and formulas like E&nbsp;=&nbsp;mc<sup>2</sup> and H<sub>2</sub>O never disturb the line height.</p>
@@ -88,7 +100,7 @@
     </dl>
   </section>
 
-  <section>
+  <section id="code">
     <h2>Code</h2>
 
     <p>Inline code like <code>margin-block: 1lh</code> sits in a faint gray. Keyboard input, such as <kbd>Ctrl</kbd>&nbsp;+&nbsp;<kbd>P</kbd> to print this page, is drawn as a flat keycap. Program output looks like <samp>no paper in tray</samp>.</p>
@@ -105,7 +117,7 @@
     return "\n".join(lines + [line])</code></pre>
   </section>
 
-  <section>
+  <section id="tables">
     <h2>Tables</h2>
 
     <table>
@@ -137,7 +149,7 @@
     </table>
   </section>
 
-  <section>
+  <section id="figures">
     <h2>Figures and media</h2>
 
     <p>Media never exceeds the measure. Figures center their content and set their caption small beneath it.</p>
@@ -159,7 +171,7 @@
     <p>A plain image is constrained to the column the same way: <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='150'%3E%3Crect width='240' height='150' fill='%230b3d91'/%3E%3Crect x='20' y='20' width='200' height='110' fill='%23fbfbf8'/%3E%3C/svg%3E" alt="A blue frame around a paper-colored rectangle" width="240" height="150"></p>
   </section>
 
-  <section>
+  <section id="forms">
     <h2>Forms</h2>
 
     <p>Fields are full-width blocks under their labels, as on a paper form. Required fields are marked with an asterisk. Type an invalid email and leave the field to see the <code>:user-invalid</code> state; bare <code>:invalid</code> is intentionally not styled, so pristine forms never scold.</p>
@@ -206,9 +218,17 @@
       <button type="reset">Reset</button>
       <button type="button" disabled>Out of print</button>
     </form>
+
+    <p>Progress and meter are fields that fill themselves in, like a pre-filled box on a paper form:</p>
+
+    <label for="printing">Printing progress</label>
+    <progress id="printing" max="100" value="63">63%</progress>
+
+    <label for="ink">Ink remaining</label>
+    <meter id="ink" min="0" max="100" value="85" low="25" high="75" optimum="100">85%</meter>
   </section>
 
-  <section>
+  <section id="details">
     <h2>Details</h2>
 
     <details open>
@@ -227,9 +247,30 @@
     </details>
   </section>
 
+  <section id="dialogs">
+    <h2>Dialogs</h2>
+
+    <p>A <code>&lt;dialog&gt;</code> is a loose sheet held up before the reader; the page behind recedes to a desk. The framework itself stays JavaScript-free; only this page's open button needs script.</p>
+
+    <button id="show-dialog" type="button">Hold up a sheet</button>
+
+    <dialog id="demo-dialog">
+      <p>A note held up in front of the page. Close it with the button below, or press <kbd>Esc</kbd>.</p>
+      <form method="dialog"><button>Set it down</button></form>
+    </dialog>
+  </section>
+
   <footer>
-    <p><small>Normie CSS v1.0.0 · MIT license · Hand-written CSS, system fonts, zero classes on this page.</small></p>
+    <p><small>Normie CSS v1.1.0 · MIT license · Hand-written CSS, system fonts, zero classes on this page.</small></p>
   </footer>
+
+  <script>
+    // Demo-only: opens the native dialog. The framework itself is
+    // JavaScript-free; showModal() needs one call.
+    document.getElementById("show-dialog").addEventListener("click", () => {
+      document.getElementById("demo-dialog").showModal();
+    });
+  </script>
 
 </body>
 </html>
