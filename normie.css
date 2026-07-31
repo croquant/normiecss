@@ -1,11 +1,12 @@
 /* ============================================================================
-   Normie CSS v1.0.0
+   Normie CSS v1.1.0
    A classless CSS framework: write semantic HTML, get a printed page.
 
    - No classes. This file styles bare elements only.
    - No build step, no webfonts, no JavaScript.
    - The paper metaphor is the scope boundary: if it can't appear on a
-     printed sheet, it isn't in here.
+     printed sheet, it isn't in here. (The one exception: <dialog>, which
+     prints as a plain block.)
    - This source is the documentation. Every rule justifies itself inline.
 
    License: MIT. Design rationale: DESIGN.md.
@@ -118,7 +119,28 @@ body {
 
 
 /* ----------------------------------------------------------------------------
-   4. Typography
+   4. Navigation
+
+   A running head: the document's table of contents set on one line, no
+   bullets. Bare <nav> needs nothing else; its links are already links.
+   ---------------------------------------------------------------------------- */
+
+nav ul {
+  list-style: none;
+  padding-inline-start: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em 1.5em;
+}
+
+/* The document's list rhythm (li + li) has no place on one line. */
+nav li + li {
+  margin-block-start: 0;
+}
+
+
+/* ----------------------------------------------------------------------------
+   5. Typography
 
    Serif everywhere, one family for body and headings, as in print.
    Hierarchy comes from size and weight alone.
@@ -219,7 +241,7 @@ sub { bottom: -0.2em; }
 
 
 /* ----------------------------------------------------------------------------
-   5. Code
+   6. Code
    ---------------------------------------------------------------------------- */
 
 code, kbd, samp {
@@ -254,7 +276,7 @@ pre code {
 
 
 /* ----------------------------------------------------------------------------
-   6. Figures and media
+   7. Figures and media
    ---------------------------------------------------------------------------- */
 
 figure img, figure svg {
@@ -270,7 +292,7 @@ figcaption {
 
 
 /* ----------------------------------------------------------------------------
-   7. Tables
+   8. Tables
 
    Ruled like a book table: heavy rules top and bottom, hairlines between
    rows, no vertical rules.
@@ -304,7 +326,7 @@ tbody tr:last-child th, tbody tr:last-child td {
 
 
 /* ----------------------------------------------------------------------------
-   8. Forms
+   9. Forms
 
    Fields are full-width blocks under their labels: a form on paper is a
    column of boxes to fill in. Checkboxes and radios stay inline.
@@ -356,6 +378,38 @@ input[type="range"] {
   display: block;
   inline-size: 100%;
   margin-block: 0.25em 1em;
+}
+
+/* A box that fills itself in, as on a paper form: progress and meter are
+   fields whose value is drawn instead of typed. */
+progress, meter {
+  display: block;
+  inline-size: 100%;
+  block-size: 1.2em;
+  margin-block: 0.25em 1em;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--paper);
+}
+
+/* The fill follows the accent like checkbox, radio, and range do; for
+   progress, accent-color does the whole job with zero vendor code. */
+progress {
+  accent-color: var(--accent);
+}
+
+/* meter ignores accent-color, so its bar is painted here. Sub-optimum
+   states keep the browser's own warning colors as the semantic signal. */
+::-webkit-meter-bar {
+  background: var(--paper);
+}
+
+::-webkit-meter-optimum-value {
+  background: var(--accent);
+}
+
+::-moz-meter-bar {
+  background: var(--accent);
 }
 
 /* Flat, hard-edged buttons: inverted ink on hover. */
@@ -423,7 +477,7 @@ input:is([type="checkbox"], [type="radio"]):user-invalid {
 
 
 /* ----------------------------------------------------------------------------
-   9. Details and summary
+   10. Details and summary
    ---------------------------------------------------------------------------- */
 
 summary {
@@ -437,13 +491,48 @@ details[open] > summary {
 
 
 /* ----------------------------------------------------------------------------
-   10. Print
+   11. Dialog
 
-   Already print-shaped by design; this only keeps blocks whole across pages.
+   The one overlay in the framework: <dialog> is native, classless, and
+   prints as a plain block, so it earns its place. On screen it reads as a
+   loose sheet held up before the reader; the page behind is the desk.
+   ---------------------------------------------------------------------------- */
+
+dialog {
+  max-inline-size: min(40ch, 100% - 2rem); /* a note, never a full page */
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  padding: 1.5em 2em;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+dialog::backdrop {
+  background: color-mix(in srgb, var(--ink) 25%, var(--paper));
+}
+
+
+/* ----------------------------------------------------------------------------
+   12. Print
+
+   Already print-shaped by design; this only keeps blocks whole across pages
+   and lays the one overlay back down on the sheet.
    ---------------------------------------------------------------------------- */
 
 @media print {
-  figure, table, blockquote, pre {
+  figure, table, blockquote, pre, dialog {
     break-inside: avoid;
+  }
+
+  /* An overlay has no place on paper: an open dialog prints as a plain
+     block. */
+  dialog[open] {
+    display: block;
+    position: static;
+  }
+
+  /* The desk does not print. */
+  dialog::backdrop {
+    display: none;
   }
 }

@@ -5,7 +5,7 @@ An extremely pure and simple classless CSS framework that makes semantic HTML lo
 ## Core principles
 
 - **Classless**: drop in one stylesheet, semantic HTML looks right. Zero markup changes.
-- **Paper metaphor as boundary**: if it can't appear on a sheet of paper, it's out of scope. This excludes overlays, modals, tooltips, sticky/fixed positioning, parallax, and animations by default.
+- **Paper metaphor as boundary**: if it can't appear on a sheet of paper, it's out of scope. This excludes overlays, modals, tooltips, sticky/fixed positioning, parallax, and animations by default. The one exception: native `<dialog>`, which prints as a plain block (1.1).
 - **Fixed opinionated design**: no theming API, no customization surface. Fork and edit if you want different values.
 - **Readable source**: the CSS source is extensively commented and serves as the primary reference. Every line must be justifiable.
 - **Minimal by default**: no published size budget, but every addition must earn its bytes.
@@ -24,7 +24,7 @@ Typographic homage to print, not skeuomorphism.
 - Target WCAG AA contrast ratios on every text/background pair.
 - Respects `prefers-reduced-motion` (no animations to disable).
 
-## V1 scope: document-complete
+## Scope: document-complete
 
 Styled out of the box (unclassed, semantic HTML only):
 
@@ -33,8 +33,9 @@ Styled out of the box (unclassed, semantic HTML only):
 - Tables, figures with captions, images/media constrained to column
 - Forms: inputs, selects, textarea, buttons, fieldset/legend, labels; validation states (`:invalid`, `:user-invalid`, `:required`)
 - `details`/`summary`
+- 1.1: `nav` as an inline running head; `progress`/`meter` as self-filling form boxes; `<dialog>` as the one overlay, collapsing to a plain block in print
 
-Out of scope for V1: `<dialog>`, nav components, cards, modals, grids, alerts, any UI-kit patterns.
+Out of scope: nav components, cards, modals (beyond native `<dialog>`), grids, alerts, any UI-kit patterns.
 
 ## Technical decisions
 
@@ -47,7 +48,7 @@ Out of scope for V1: `<dialog>`, nav components, cards, modals, grids, alerts, a
 | Dark mode | Shipped in 0.2. `prefers-color-scheme: dark` swaps the token values and sets `color-scheme: dark`. No manual toggle. |
 | Reset | Minimal hand-written targeted reset (~15-25 lines): `box-sizing`, body margin, media constraints, form controls inherit font, margin normalization on styled elements only. No normalize library. |
 | Print | Prints well out of the box by design. Small `@media print` block only where strictly necessary (`break-inside: avoid` on figures, tables, blockquotes, `pre`). |
-| Browser support | Modern evergreen only. Any modern CSS allowed (nesting, `:where()`, `:is()`, logical properties). No prefixes, no fallbacks, no legacy. |
+| Browser support | Modern evergreen only. Any modern CSS allowed (nesting, `:where()`, `:is()`, logical properties). No prefixes, no fallbacks, no legacy. Vendor pseudo-elements allowed where the platform leaves no alternative (the `meter` fill). |
 | Demo page | `index.html` exercising every in-scope element, unclassed. Serves as documentation, manual regression test, and marketing. Very important. |
 
 ## Repo contents
@@ -61,9 +62,8 @@ Out of scope for V1: `<dialog>`, nav components, cards, modals, grids, alerts, a
 
 ## Versioning
 
-Semver, starting at `0.1.0`. Promoted to `1.0.0` once the document-complete scope survived real-world use.
+Semver, starting at `0.1.0`. Promoted to `1.0.0` once the document-complete scope survived real-world use. `1.1.0` adds navigation, `progress`/`meter`, and `<dialog>`, the boundary's one exception; no breaking changes.
 
-## Roadmap (post-V1, not committed)
+## Roadmap (not committed)
 
-- Full UI kit (nav, cards, modals, grid) as an optional layer, never compromising the classless core
-- Modifier classes, added one at a time against proven needs
+Nothing planned. Candidates only against proven needs: modifier classes; a UI-kit layer, likely a separate stylesheet or project if it ever happens.
