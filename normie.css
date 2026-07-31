@@ -392,10 +392,20 @@ progress, meter {
   background: var(--paper);
 }
 
-/* The fill follows the accent like checkbox, radio, and range do; for
-   progress, accent-color does the whole job with zero vendor code. */
+/* The fill follows the accent like checkbox, radio, and range do.
+   accent-color alone is not enough: the border/background above switch
+   Chrome off its native progress bar, where accent-color is ignored,
+   so the fill is painted explicitly. */
 progress {
   accent-color: var(--accent);
+}
+
+::-webkit-progress-bar {
+  background: var(--paper);
+}
+
+::-webkit-progress-value {
+  background: var(--accent);
 }
 
 /* meter ignores accent-color, so its bar is painted here. Sub-optimum
@@ -408,7 +418,9 @@ progress {
   background: var(--accent);
 }
 
-::-moz-meter-bar {
+/* Scoped to optimum: a blanket ::-moz-meter-bar would also override
+   Firefox's own sub-optimum warning colors. */
+meter:-moz-meter-optimum::-moz-meter-bar {
   background: var(--accent);
 }
 
